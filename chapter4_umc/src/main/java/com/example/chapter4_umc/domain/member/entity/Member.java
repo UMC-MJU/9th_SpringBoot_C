@@ -1,3 +1,4 @@
+// Member 클래스가 속한 패키지 경로
 package com.example.chapter4_umc.domain.member.entity;
 
 import com.example.chapter4_umc.domain.member.entity.Region;
@@ -6,24 +7,30 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.cglib.core.Local;
+import lombok.*; // 중복 코드 제거
 
-import javax.management.Notification;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+// DB 테이블과 매핑되는 JPA 엔티티임을 명시
 @Entity
+// 빌더 패턴 자동 생성
 @Builder
+// 기본 생성자 생성
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+// 모든 필드를 인자로 받는 생성자
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+// 모든 필드에 대해 get 메서드 자동 생성
 @Getter
 @Table(name = "member")
 public class Member{
 
+    // 이 필드가 PK임을 지정
     @Id
+    // DB가 자동으로 PK 생성 (AUTO_INCREMENT 같은 기능)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // DB 컬럼 이름을 member_id로 명시
     @Column(name = "member_id")
     private Long id;
 
@@ -33,13 +40,13 @@ public class Member{
     @Column(length = 100) // 비밀번호 (VARCHAR 100)
     private String password;
 
-    @Column(length = 100, unique = true) // 이메일 (VARCHAR 100)
+    @Column(length = 100, unique = true) // 이메일 (VARCHAR 100, 중복 불가)
     private String email;
 
     @Column(length = 20) // 전화번호 (VARCHAR 20)
     private String phoneNumber;
 
-    @Column(name = "gender")
+    @Column(name = "gender") // 성별은 enum 타입으로 지정
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
@@ -54,11 +61,12 @@ public class Member{
     @UpdateTimestamp // 수정일시 (TIMESTAMP)
     private LocalDateTime updatedAt;
 
-    @Builder.Default // Builder 사용 시 기본값 설정
+    // Builder로 객체를 만들 때 값을 주지 않으면 0으로 초기화
+    @Builder.Default
     @Column(columnDefinition = "INT default 0") // DDL 기본값 유지
     private Integer totalPoints = 0;
 
-    @ColumnDefault("1")
+    @ColumnDefault("1") // 활성: 1, 비활성: 0
     private Integer isActive;
 
     private Boolean eventAlarm;
@@ -68,6 +76,7 @@ public class Member{
 
     // N:1 관계: Member (N) : Region (1)
     // 여러 사용자가 하나의 지역을 선호 지역으로 설정 가능
+    // 지연 로딩으로 설정하여 필요할 때만 DB에서 region을 가져옴
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "preferred_region_id")
     private Region preferredRegion;
@@ -75,7 +84,7 @@ public class Member{
     // 1:N 관계: Member (1) : MemberMission (N)
     // 사용자 한 명이 여러 개의 미션 수행 가능
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<MemberMission> MemberMissionList;
+    private List<MemberMission> memberMissionList;
 
     // 1:N 관계: Member (1) : Inquiry (N)
     // 한 명의 사용자가 여러 문의를 남길 수 있음
