@@ -32,6 +32,10 @@ dependencies {
     // MySQL 데이터베이스 연결을 위해 필요
     runtimeOnly 'com.mysql:mysql-connector-j'
 
+    // Lombok
+    implementation 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
     // .env 자동 로딩을 위한 devtools는 그대로 유지
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
