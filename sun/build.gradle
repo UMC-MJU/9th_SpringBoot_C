@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.5.6'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+description = 'umc9th'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // 웹 애플리케이션을 위한 Spring Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // JPA/Hibernate 사용을 위해 필요
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // MySQL 데이터베이스 연결을 위해 필요
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // Lombok
+    implementation 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // .env 자동 로딩을 위한 devtools는 그대로 유지
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // .env 파일 로딩을 위한 라이브러리
+    implementation 'me.paulschwarz:spring-dotenv:4.0.0'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
