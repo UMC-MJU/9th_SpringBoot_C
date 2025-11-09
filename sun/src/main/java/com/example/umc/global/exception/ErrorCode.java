@@ -14,7 +14,12 @@ public enum ErrorCode {
     RESTAURANT_NOT_FOUND(HttpStatus.NOT_FOUND, "RESTAURANT-001", "레스토랑을 찾을 수 없습니다."),
 
     // Review 관련 에러
-    REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "REVIEW-001", "리뷰를 찾을 수 없습니다.");
+    REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "REVIEW-001", "리뷰를 찾을 수 없습니다."),
+
+    // 입력값 검증 에러
+    INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "COMMON-001", "잘못된 입력값입니다."),
+    INVALID_PAGE_SIZE(HttpStatus.BAD_REQUEST, "COMMON-002", "페이지 크기는 1에서 100 사이여야 합니다."),
+    INVALID_STAR_RATING(HttpStatus.BAD_REQUEST, "COMMON-003", "별점은 0.0에서 5.0 사이여야 합니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
