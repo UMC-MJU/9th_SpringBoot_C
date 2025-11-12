@@ -5,8 +5,6 @@ import com.example.umc.domain.review.dto.response.ReviewResponseDto;
 import com.example.umc.domain.review.service.ReviewService;
 import com.example.umc.domain.review.validator.ReviewFilterValidator;
 import com.example.umc.global.auth.LoginMemberId;
-import com.example.umc.global.exception.CustomException;
-import com.example.umc.global.exception.ErrorCode;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
