@@ -11,6 +11,8 @@ import com.example.umc.domain.review.repository.ReviewRepository;
 import com.example.umc.global.exception.CustomException;
 import com.example.umc.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,5 +51,22 @@ public class ReviewService {
 
         // 5. Entity -> DTO 변환하여 반환
         return ReviewResponseDto.ReviewCreateDto.from(savedReview);
+    }
+
+    /**
+     * 내가 작성한 리뷰 조회 (가게별, 별점별 필터링)
+     */
+    public ReviewResponseDto.MyReviewListDto getMyReviews(Long memberId, ReviewRequestDto.ReviewFilterDto filter, Pageable pageable) {
+        // QueryDSL을 사용한 동적 쿼리 조회
+        Page<Review> reviewPage = reviewRepository.findMyReviewsWithFilters(
+                memberId,
+                filter.getRestaurantName(),
+                filter.getMinStarRating(),
+                filter.getMaxStarRating(),
+                pageable
+        );
+
+        // Entity -> DTO 변환하여 반환
+        return ReviewResponseDto.MyReviewListDto.from(reviewPage);
     }
 }
