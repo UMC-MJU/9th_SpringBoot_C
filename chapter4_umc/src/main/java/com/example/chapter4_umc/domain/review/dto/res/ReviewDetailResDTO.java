@@ -1,0 +1,28 @@
+package com.example.chapter4_umc.domain.review.dto.res;
+
+import com.example.chapter4_umc.domain.review.entity.Review;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+@AllArgsConstructor
+public class ReviewDetailResDTO {
+
+    private Long reviewId;
+    private Integer rating;
+    private String content;
+    private String imageUrl;
+    private String createdAt;
+
+    private Long memberId;
+    private String memberName;
+
+    private Long storeId;
+    private String storeName;
+
+    private Long regionId;
+    private String regionName;
+
+}
