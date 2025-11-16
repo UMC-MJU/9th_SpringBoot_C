@@ -1,0 +1,10 @@
+package com.example.umc9th.domain.member.repository;
+
+import com.example.umc9th.domain.member.entity.Member;
+import java.util.List;
+
+public interface MemberRepositoryCustom {
+
+    List<Member> findMembersByName(String name);
+
+}
