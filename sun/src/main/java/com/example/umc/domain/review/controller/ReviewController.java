@@ -5,6 +5,7 @@ import com.example.umc.domain.review.dto.response.ReviewResponseDto;
 import com.example.umc.domain.review.service.ReviewService;
 import com.example.umc.domain.review.validator.ReviewFilterValidator;
 import com.example.umc.global.auth.LoginMemberId;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
-@Validated  // Bean Validation 활성화
+/**
+ * 리뷰 Controller
+ *
+ * 검증 전략:
+ * - @Validated (클래스 레벨): @RequestParam 파라미터 검증 (AOP 기반, ConstraintViolationException)
+ * - @Valid (메서드 파라미터): @RequestBody DTO 객체 검증 (ArgumentResolver 기반, MethodArgumentNotValidException)
+ */
+@Validated  // @RequestParam 검증을 위한 AOP 활성화
 @RestController
 @RequestMapping("/api/reviews")
 @RequiredArgsConstructor
@@ -27,10 +35,11 @@ public class ReviewController {
 
     /**
      * 리뷰 작성 API
+     * @Valid: DTO 객체 내부의 검증 어노테이션 활성화 (ArgumentResolver에서 처리)
      */
     @PostMapping
     public ResponseEntity<ReviewResponseDto.ReviewCreateDto> createReview(
-            @RequestBody ReviewRequestDto.CreateReviewDto request) {
+            @Valid @RequestBody ReviewRequestDto.CreateReviewDto request) {
         ReviewResponseDto.ReviewCreateDto response = reviewService.createReview(request);
         return ResponseEntity.ok(response);
     }
