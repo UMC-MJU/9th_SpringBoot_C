@@ -18,7 +18,7 @@ public class ErrorResponse {
 
     public static ErrorResponse of(ErrorCode errorCode) {
         return ErrorResponse.builder()
-                .status(errorCode.getHttpStatus())
+                .status(errorCode.getStatus())
                 .code(errorCode.getCode())
                 .message(errorCode.getMessage())
                 .timestamp(LocalDateTime.now())

@@ -4,6 +4,8 @@ import com.example.umc.domain.review.dto.request.ReviewRequestDto;
 import com.example.umc.domain.review.dto.response.ReviewResponseDto;
 import com.example.umc.domain.review.service.ReviewService;
 import com.example.umc.domain.review.validator.ReviewFilterValidator;
+import com.example.umc.global.apiPayload.ApiResponse;
+import com.example.umc.global.apiPayload.code.GeneralSuccessCode;
 import com.example.umc.global.auth.LoginMemberId;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -38,10 +40,10 @@ public class ReviewController {
      * @Valid: DTO 객체 내부의 검증 어노테이션 활성화 (ArgumentResolver에서 처리)
      */
     @PostMapping
-    public ResponseEntity<ReviewResponseDto.ReviewCreateDto> createReview(
+    public ResponseEntity<ApiResponse<ReviewResponseDto.ReviewCreateDto>> createReview(
             @Valid @RequestBody ReviewRequestDto.CreateReviewDto request) {
         ReviewResponseDto.ReviewCreateDto response = reviewService.createReview(request);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiResponse.onSuccess(GeneralSuccessCode.CREATED, response));
     }
 
     /**
@@ -55,7 +57,7 @@ public class ReviewController {
      * @return 필터링된 리뷰 목록
      */
     @GetMapping("/my")
-    public ResponseEntity<ReviewResponseDto.MyReviewListDto> getMyReviews(
+    public ResponseEntity<ApiResponse<ReviewResponseDto.MyReviewListDto>> getMyReviews(
             @LoginMemberId Long memberId,
             @RequestParam(required = false) String restaurantName,
             @RequestParam(required = false) BigDecimal minStarRating,
@@ -82,6 +84,6 @@ public class ReviewController {
         // 서비스 호출
         ReviewResponseDto.MyReviewListDto response = reviewService.getMyReviews(memberId, filter, pageable);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiResponse.onSuccess(GeneralSuccessCode.OK, response));
     }
 }
