@@ -2,6 +2,7 @@ package com.example.umc.domain.mission.service;
 
 import com.example.umc.domain.member.entity.Member;
 import com.example.umc.domain.member.repository.MemberRepository;
+import com.example.umc.domain.mission.dto.request.MissionRequestDto;
 import com.example.umc.domain.mission.dto.response.MissionResponseDto;
 import com.example.umc.domain.mission.dto.response.MissionResponseDto.AvailableMissionDto;
 import com.example.umc.domain.mission.dto.response.MissionResponseDto.HomeDto;
@@ -28,6 +29,43 @@ public class MissionService {
     private final MemberRepository memberRepository;
     private final MissionRepository missionRepository;
     private final MemberMissionRepository memberMissionRepository;
+
+    /**
+     * 미션 도전하기
+     * @param memberId JWT 토큰에서 추출한 회원 ID
+     * @param request 미션 도전 요청 DTO (missionId 포함)
+     * @return 도전한 미션 정보
+     */
+    @Transactional
+    public MissionResponseDto.ChallengeMissionDto challengeMission(
+            Long memberId, MissionRequestDto.ChallengeMissionDto request) {
+
+        // 1. 회원 조회
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+
+        // 2. 미션 조회
+        Mission mission = missionRepository.findById(request.getMissionId())
+                .orElseThrow(() -> new CustomException(ErrorCode.MISSION_NOT_FOUND));
+
+        // 3. 중복 도전 체크
+        if (memberMissionRepository.existsByMemberIdAndMissionId(memberId, request.getMissionId())) {
+            throw new CustomException(ErrorCode.ALREADY_CHALLENGING_MISSION);
+        }
+
+        // 4. MemberMission 엔티티 생성 (isComplete = false: 진행중)
+        MemberMission memberMission = MemberMission.builder()
+                .member(member)
+                .mission(mission)
+                .isComplete(false)
+                .build();
+
+        // 5. 저장
+        MemberMission savedMemberMission = memberMissionRepository.save(memberMission);
+
+        // 6. Entity -> DTO 변환하여 반환
+        return MissionResponseDto.ChallengeMissionDto.from(savedMemberMission);
+    }
 
     /**
      * 진행중인 미션 목록 조회 (페이징)

@@ -41,4 +41,12 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
            "WHERE mm.member.id = :memberId " +
            "AND mm.isComplete = true")
     Long countCompletedMissions(@Param("memberId") Long memberId);
+
+    /**
+     * 회원이 특정 미션을 이미 도전 중인지 확인
+     * @param memberId 회원 ID
+     * @param missionId 미션 ID
+     * @return 도전 중이면 true, 아니면 false
+     */
+    boolean existsByMemberIdAndMissionId(Long memberId, Long missionId);
 }
