@@ -28,7 +28,7 @@ import java.math.BigDecimal;
  */
 @Validated  // @RequestParam 검증을 위한 AOP 활성화
 @RestController
-@RequestMapping("/api/reviews")
+@RequestMapping("/api/v1/reviews")
 @RequiredArgsConstructor
 public class ReviewController {
 
