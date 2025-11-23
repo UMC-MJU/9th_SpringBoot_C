@@ -8,7 +8,5 @@ public class ReviewRequestDTO {
     public static class CreateDTO{
         private String content;
         private Float star;
-        private Long storeId;
-        private Long memberId;
     }
 }

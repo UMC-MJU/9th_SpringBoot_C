@@ -8,21 +8,21 @@ import com.example.umc9th.domain.review.service.ReviewCommandService;
 import com.example.umc9th.global.apiPayload.ApiResponse;
 import com.example.umc9th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/reviews")
+@RequestMapping("/stores/{storeId}/reviews")
 public class ReviewController {
 
     private final ReviewCommandService reviewCommandService;
 
     @PostMapping("/")
-    public ApiResponse<ReviewResponseDTO.CreateResultDTO> create(@RequestBody ReviewRequestDTO.CreateDTO request){
-        Review review = reviewCommandService.createReview(request);
+    public ApiResponse<ReviewResponseDTO.CreateResultDTO> create(
+            @PathVariable Long storeId,
+            @RequestBody ReviewRequestDTO.CreateDTO request
+    ){
+        Review review = reviewCommandService.createReview(storeId, request);
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, ReviewConverter.toCreateResultDTO(review));
     }
 }

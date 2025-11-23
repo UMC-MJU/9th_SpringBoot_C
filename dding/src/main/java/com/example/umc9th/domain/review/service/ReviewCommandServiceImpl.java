@@ -24,10 +24,10 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
     private final StoreRepository storeRepository;
 
     @Override
-    public Review createReview(ReviewRequestDTO.CreateDTO request) {
-        Member member = memberRepository.findById(request.getMemberId())
+    public Review createReview(Long storeId, ReviewRequestDTO.CreateDTO request) {
+        Member member = memberRepository.findById(1L) // 하드코딩된 사용자 ID
                 .orElseThrow(() -> new GeneralException(GeneralErrorCode.NOT_FOUND));
-        Store store = storeRepository.findById(request.getStoreId())
+        Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new GeneralException(GeneralErrorCode.NOT_FOUND));
         Review newReview = ReviewConverter.toReview(request, member, store);
         return reviewRepository.save(newReview);

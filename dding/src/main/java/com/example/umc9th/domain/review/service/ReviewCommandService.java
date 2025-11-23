@@ -4,5 +4,5 @@ import com.example.umc9th.domain.review.dto.ReviewRequestDTO;
 import com.example.umc9th.domain.review.entity.Review;
 
 public interface ReviewCommandService {
-    Review createReview(ReviewRequestDTO.CreateDTO request);
+    Review createReview(Long storeId, ReviewRequestDTO.CreateDTO request);
 }
