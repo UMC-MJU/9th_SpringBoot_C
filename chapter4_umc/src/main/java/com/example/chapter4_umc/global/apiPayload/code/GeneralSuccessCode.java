@@ -38,7 +38,11 @@ public enum GeneralSuccessCode implements BaseSuccessCode {
 
     REVIEW_DELETED(HttpStatus.OK,
             "REVIEW200_3",
-            "리뷰 삭제 성공")
+            "리뷰 삭제 성공"),
+
+    MISSION_JOIN(HttpStatus.OK,
+            "MISSION200_1",
+            "미션 도전 성공")
     ;
 
     private final HttpStatus status;
