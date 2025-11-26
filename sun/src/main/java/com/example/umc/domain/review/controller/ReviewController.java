@@ -19,7 +19,6 @@ import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,10 +65,10 @@ public class ReviewController {
             )
     })
     @PostMapping
-    public ResponseEntity<ApiResponse<ReviewResponseDto.ReviewCreateDto>> createReview(
+    public ApiResponse<ReviewResponseDto.ReviewCreateDto> createReview(
             @Valid @RequestBody ReviewRequestDto.CreateReviewDto request) {
         ReviewResponseDto.ReviewCreateDto response = reviewService.createReview(request);
-        return ResponseEntity.ok(ApiResponse.onSuccess(GeneralSuccessCode.CREATED, response));
+        return ApiResponse.onSuccess(GeneralSuccessCode.CREATED, response);
     }
 
     /**
@@ -98,7 +97,7 @@ public class ReviewController {
             )
     })
     @GetMapping("/my")
-    public ResponseEntity<ApiResponse<ReviewResponseDto.MyReviewListDto>> getMyReviews(
+    public ApiResponse<ReviewResponseDto.MyReviewListDto> getMyReviews(
             @Parameter(hidden = true) @LoginMemberId Long memberId,
             @Parameter(description = "가게 이름 (선택)", example = "맛있는 식당")
             @RequestParam(required = false) String restaurantName,
@@ -130,6 +129,6 @@ public class ReviewController {
         // 서비스 호출
         ReviewResponseDto.MyReviewListDto response = reviewService.getMyReviews(memberId, filter, pageable);
 
-        return ResponseEntity.ok(ApiResponse.onSuccess(GeneralSuccessCode.OK, response));
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, response);
     }
 }

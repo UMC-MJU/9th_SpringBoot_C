@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,13 +66,13 @@ public class MissionController {
             )
     })
     @PostMapping
-    public ResponseEntity<ApiResponse<MissionResponseDto.ChallengeMissionDto>> challengeMission(
+    public ApiResponse<MissionResponseDto.ChallengeMissionDto> challengeMission(
             @Parameter(hidden = true) @LoginMemberId Long memberId,
             @Valid @RequestBody MissionRequestDto.ChallengeMissionDto request) {
 
         MissionResponseDto.ChallengeMissionDto response =
                 missionService.challengeMission(memberId, request);
 
-        return ResponseEntity.ok(ApiResponse.onSuccess(GeneralSuccessCode.CREATED, response));
+        return ApiResponse.onSuccess(GeneralSuccessCode.CREATED, response);
     }
 }
