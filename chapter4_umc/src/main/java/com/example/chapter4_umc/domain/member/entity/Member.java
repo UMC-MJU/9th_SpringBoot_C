@@ -1,6 +1,9 @@
 // Member 클래스가 속한 패키지 경로
 package com.example.chapter4_umc.domain.member.entity;
 
+import com.example.chapter4_umc.domain.notification.entity.Notification;
+import com.example.chapter4_umc.domain.review.entity.Review;
+import com.example.chapter4_umc.domain.inquiry.entity.Inquiry;
 import com.example.chapter4_umc.domain.region.entity.Region;
 import com.example.chapter4_umc.domain.member.enums.Gender;
 import org.hibernate.annotations.ColumnDefault;

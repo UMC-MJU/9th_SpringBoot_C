@@ -1,4 +1,4 @@
-package com.example.chapter4_umc;
+package com.example.chapter4_umc.global;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
