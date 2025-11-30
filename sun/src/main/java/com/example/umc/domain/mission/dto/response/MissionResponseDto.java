@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MissionResponseDto {
 
@@ -128,6 +130,93 @@ public class MissionResponseDto {
                     .missionCondition(mission.getMissionCondition())
                     .deadline(mission.getDeadline())
                     .missionPoint(mission.getMissionPoint())
+                    .build();
+        }
+    }
+
+    /**
+     * 미션 완료 응답 DTO
+     */
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
+    public static class CompleteMissionDto {
+        private Long memberMissionId;
+        private Long missionId;
+        private String status;              // "완료"
+        private String completedAt;         // "2025.11.30" 형식
+
+        /**
+         * MemberMission Entity -> CompleteMissionDto 변환
+         */
+        public static CompleteMissionDto from(MemberMission memberMission) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+            return CompleteMissionDto.builder()
+                    .memberMissionId(memberMission.getId())
+                    .missionId(memberMission.getMission().getId())
+                    .status("완료")
+                    .completedAt(LocalDateTime.now().format(formatter))
+                    .build();
+        }
+    }
+
+    /**
+     * 특정 가게의 미션 DTO
+     */
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
+    public static class RestaurantMissionDto {
+        private Long missionId;
+        private String restaurantName;
+        private String missionCondition;
+        private LocalDateTime deadline;
+        private Integer missionPoint;
+
+        /**
+         * Mission Entity -> RestaurantMissionDto 변환
+         */
+        public static RestaurantMissionDto from(Mission mission) {
+            return RestaurantMissionDto.builder()
+                    .missionId(mission.getId())
+                    .restaurantName(mission.getRestaurant().getRestaurantName())
+                    .missionCondition(mission.getMissionCondition())
+                    .deadline(mission.getDeadline())
+                    .missionPoint(mission.getMissionPoint())
+                    .build();
+        }
+    }
+
+    /**
+     * 특정 가게의 미션 목록 응답 DTO (페이징 포함)
+     */
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
+    public static class RestaurantMissionListDto {
+        private List<RestaurantMissionDto> missions;
+        private int currentPage;
+        private int totalPages;
+        private long totalElements;
+        private boolean hasNext;
+
+        /**
+         * Page<Mission> -> RestaurantMissionListDto 변환
+         */
+        public static RestaurantMissionListDto from(Page<Mission> missionPage) {
+            List<RestaurantMissionDto> missions = missionPage.getContent().stream()
+                    .map(RestaurantMissionDto::from)
+                    .collect(Collectors.toList());
+
+            return RestaurantMissionListDto.builder()
+                    .missions(missions)
+                    .currentPage(missionPage.getNumber())
+                    .totalPages(missionPage.getTotalPages())
+                    .totalElements(missionPage.getTotalElements())
+                    .hasNext(missionPage.hasNext())
                     .build();
         }
     }

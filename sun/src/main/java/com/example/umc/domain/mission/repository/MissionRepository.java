@@ -44,4 +44,24 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
             @Param("baseAddressId") Long baseAddressId,
             Pageable pageable
     );
+
+    /**
+     * 특정 가게의 미션 목록 조회
+     * - JOIN FETCH로 N+1 문제 해결
+     * - deadline 오름차순 정렬 (마감일 임박순)
+     *
+     * @param restaurantId 가게 ID
+     * @param pageable 페이징 정보
+     * @return 가게의 미션 목록 (페이징)
+     */
+    @Query(value = "SELECT m FROM Mission m " +
+                   "JOIN FETCH m.restaurant r " +
+                   "WHERE r.id = :restaurantId " +
+                   "ORDER BY m.deadline ASC",
+           countQuery = "SELECT COUNT(m) FROM Mission m " +
+                        "WHERE m.restaurant.id = :restaurantId")
+    Page<Mission> findByRestaurantId(
+            @Param("restaurantId") Long restaurantId,
+            Pageable pageable
+    );
 }
