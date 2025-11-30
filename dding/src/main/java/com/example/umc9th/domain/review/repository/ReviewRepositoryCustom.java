@@ -1,8 +1,9 @@
 package com.example.umc9th.domain.review.repository;
 
 import com.example.umc9th.domain.review.entity.Review;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ReviewRepositoryCustom {
-    List<Review> findReviewsByStoreId(Long storeId);
+    Page<Review> findAllByMemberId(Long memberId, Pageable pageable);
 }
