@@ -6,8 +6,46 @@ import lombok.*;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class MissionResponseDto {
+
+    /**
+     * 미션 도전하기 응답 DTO
+     */
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
+    public static class ChallengeMissionDto {
+        private Long memberMissionId;
+        private Long missionId;
+        private String restaurantName;
+        private String missionCondition;
+        private LocalDateTime deadline;
+        private Integer missionPoint;
+        private String status;              // "진행중"
+        private String createdAt;           // "2025.11.22" 형식
+
+        /**
+         * MemberMission Entity -> ChallengeMissionDto 변환
+         */
+        public static ChallengeMissionDto from(MemberMission memberMission) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+            Mission mission = memberMission.getMission();
+
+            return ChallengeMissionDto.builder()
+                    .memberMissionId(memberMission.getId())
+                    .missionId(mission.getId())
+                    .restaurantName(mission.getRestaurant().getRestaurantName())
+                    .missionCondition(mission.getMissionCondition())
+                    .deadline(mission.getDeadline())
+                    .missionPoint(mission.getMissionPoint())
+                    .status("진행중")
+                    .createdAt(memberMission.getCreatedAt().format(formatter))
+                    .build();
+        }
+    }
 
     /**
      * 회원의 미션 목록 DTO (진행중/완료)
