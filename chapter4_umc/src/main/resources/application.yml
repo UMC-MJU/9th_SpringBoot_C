@@ -18,8 +18,8 @@ spring:
       hibernate:
         format_sql: true # ???? SQL ??? ?? ?? ???
 
-  jwt:
-    token:
-      secretKey: jwt-secret-key-jwt-secret-key
-      expiration:
-        access: 3600000
+jwt:
+  token:
+    secretKey: umc-9th-springboot-jwt-secret-key-256bit-over
+    expiration:
+      access: 3600000
