@@ -18,6 +18,12 @@ spring:
       hibernate:
         format_sql: true # ???? SQL ??? ?? ?? ???
 
+  jwt:
+    token:
+      secretKey: ZGh3YWlkc2F2ZXdhZXZ3b2EgMTM5ZXUgMDMxdWMyIHEyMiBAIDAgKTJFVio=
+      expiration:
+        access: 14400000  # 4시간 (4 * 60 * 60 * 1000)
+
 server:
   error:
     include-stacktrace: never # 에러 페이지에서 스택 트레이스 숨김
