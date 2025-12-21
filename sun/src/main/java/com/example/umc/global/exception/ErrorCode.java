@@ -10,6 +10,13 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode implements BaseErrorCode {
     // Member 관련 에러
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER-001", "회원을 찾을 수 없습니다."),
+    INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "MEMBER-002", "비밀번호가 일치하지 않습니다."),
+
+    // BaseAddress 관련 에러
+    BASE_ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "ADDRESS-001", "주소를 찾을 수 없습니다."),
+
+    // Food 관련 에러
+    FOOD_NOT_FOUND(HttpStatus.NOT_FOUND, "FOOD-001", "음식 카테고리를 찾을 수 없습니다."),
 
     // Restaurant 관련 에러
     RESTAURANT_NOT_FOUND(HttpStatus.NOT_FOUND, "RESTAURANT-001", "레스토랑을 찾을 수 없습니다."),

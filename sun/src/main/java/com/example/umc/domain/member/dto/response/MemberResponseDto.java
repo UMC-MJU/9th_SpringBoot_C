@@ -3,7 +3,40 @@ package com.example.umc.domain.member.dto.response;
 import com.example.umc.domain.member.entity.Member;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 public class MemberResponseDto {
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
+    public static class LoginDto {
+        private String accessToken;
+        private String email;
+        private String memberName;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
+    public static class JoinDto {
+        private Long memberId;
+        private String memberName;
+        private String email;
+        private LocalDateTime createdAt;
+
+        // Entity -> DTO 변환
+        public static JoinDto from(Member member) {
+            return JoinDto.builder()
+                    .memberId(member.getId())
+                    .memberName(member.getMemberName())
+                    .email(member.getEmail())
+                    .createdAt(member.getCreatedAt())
+                    .build();
+        }
+    }
 
     @Getter
     @Builder
