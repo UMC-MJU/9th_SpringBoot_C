@@ -34,4 +34,11 @@ public class MemberMission {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mission_id", nullable = false)
     private Mission mission;
+
+    /**
+     * 미션을 완료 상태로 변경
+     */
+    public void complete() {
+        this.isComplete = true;
+    }
 }

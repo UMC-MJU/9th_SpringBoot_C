@@ -145,4 +145,42 @@ public class MissionService {
                 .availableMissions(availableMissions)
                 .build();
     }
+
+    /**
+     * 특정 가게의 미션 목록 조회 (페이징)
+     * @param restaurantId 가게 ID
+     * @param pageable 페이징 정보 (페이지 번호, 크기, 정렬)
+     * @return 가게의 미션 목록 (페이징 정보 포함)
+     */
+    public MissionResponseDto.RestaurantMissionListDto getMissionsByRestaurant(Long restaurantId, Pageable pageable) {
+        // 1. 가게의 미션 목록 조회 (페이징)
+        Page<Mission> missionPage = missionRepository.findByRestaurantId(restaurantId, pageable);
+
+        // 2. Entity -> DTO 변환
+        return MissionResponseDto.RestaurantMissionListDto.from(missionPage);
+    }
+
+    /**
+     * 진행 중인 미션을 완료로 변경
+     * @param memberId JWT 토큰에서 추출한 회원 ID
+     * @param missionId 완료할 미션 ID
+     * @return 완료된 미션 정보
+     */
+    @Transactional
+    public MissionResponseDto.CompleteMissionDto completeMission(Long memberId, Long missionId) {
+        // 1. MemberMission 조회
+        MemberMission memberMission = memberMissionRepository.findByMemberIdAndMissionId(memberId, missionId)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_MISSION_NOT_FOUND));
+
+        // 2. 이미 완료된 미션인지 확인
+        if (memberMission.getIsComplete()) {
+            throw new CustomException(ErrorCode.MISSION_ALREADY_COMPLETED);
+        }
+
+        // 3. 미션 완료 처리 (dirty checking으로 자동 업데이트)
+        memberMission.complete();
+
+        // 4. Entity -> DTO 변환하여 반환
+        return MissionResponseDto.CompleteMissionDto.from(memberMission);
+    }
 }

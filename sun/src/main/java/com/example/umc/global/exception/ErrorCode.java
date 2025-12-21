@@ -20,6 +20,8 @@ public enum ErrorCode implements BaseErrorCode {
     // Mission 관련 에러
     MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "MISSION-001", "미션을 찾을 수 없습니다."),
     ALREADY_CHALLENGING_MISSION(HttpStatus.CONFLICT, "MISSION-002", "이미 도전 중인 미션입니다."),
+    MEMBER_MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "MISSION-003", "회원의 미션을 찾을 수 없습니다."),
+    MISSION_ALREADY_COMPLETED(HttpStatus.CONFLICT, "MISSION-004", "이미 완료된 미션입니다."),
 
     // 입력값 검증 에러
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "COMMON-001", "잘못된 입력값입니다."),

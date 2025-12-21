@@ -49,4 +49,19 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
      * @return 도전 중이면 true, 아니면 false
      */
     boolean existsByMemberIdAndMissionId(Long memberId, Long missionId);
+
+    /**
+     * 회원 ID와 미션 ID로 MemberMission 조회
+     * @param memberId 회원 ID
+     * @param missionId 미션 ID
+     * @return MemberMission
+     */
+    @Query("SELECT mm FROM MemberMission mm " +
+           "JOIN FETCH mm.mission m " +
+           "WHERE mm.member.id = :memberId " +
+           "AND mm.mission.id = :missionId")
+    java.util.Optional<MemberMission> findByMemberIdAndMissionId(
+            @Param("memberId") Long memberId,
+            @Param("missionId") Long missionId
+    );
 }
