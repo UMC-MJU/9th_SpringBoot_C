@@ -33,6 +33,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+    // Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+
     // QueryDSL : OpenFeign
     implementation "io.github.openfeign.querydsl:querydsl-jpa:7.0"
     implementation "io.github.openfeign.querydsl:querydsl-core:7.0"
