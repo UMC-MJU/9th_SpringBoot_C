@@ -34,4 +34,9 @@ public class MemberReqDTO {
 
 
     ) {}
+
+    public record LoginDTO(
+            String email,
+            String password
+    ) {}
 }

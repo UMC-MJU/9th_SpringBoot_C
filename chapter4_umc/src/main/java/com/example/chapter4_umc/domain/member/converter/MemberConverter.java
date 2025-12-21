@@ -1,6 +1,7 @@
 package com.example.chapter4_umc.domain.member.converter;
 
 import com.example.chapter4_umc.domain.member.dto.MemberReqDTO;
+import com.example.chapter4_umc.domain.member.dto.MemberResDTO;
 import com.example.chapter4_umc.domain.member.entity.Member;
 import com.example.chapter4_umc.global.auth.enums.Role;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,5 +22,15 @@ public class MemberConverter {
                 .phoneNumber(request.phoneNumber())
                 .role(Role.USER)
                 .build();
+    }
+
+    public static MemberResDTO.LoginDTO toLoginDTO(
+            Member member,
+            String accessToken
+    ) {
+        return new MemberResDTO.LoginDTO(
+                member.getId(),
+                accessToken
+        );
     }
 }
