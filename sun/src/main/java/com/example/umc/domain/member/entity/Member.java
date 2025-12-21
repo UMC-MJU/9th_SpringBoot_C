@@ -7,6 +7,7 @@ import com.example.umc.domain.member.enums.SocialType;
 import com.example.umc.domain.mission.entity.MemberMission;
 import com.example.umc.domain.review.entity.Review;
 import com.example.umc.domain.term.entity.MemberTerm;
+import com.example.umc.global.auth.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -48,8 +49,15 @@ public class Member {
     @Column(name = "gender", nullable = false)
     private Gender gender;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role;
 
     @Column(name = "phone_number", length = 20)
     private String phoneNumber;
