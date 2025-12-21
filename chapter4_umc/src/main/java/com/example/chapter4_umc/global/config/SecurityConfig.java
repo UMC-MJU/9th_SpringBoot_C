@@ -18,11 +18,13 @@ public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
 
     private final String[] allowUris = {
-            "/login",
-            "/signup",
             "/swagger-ui/**",
-            "/swagger-resources/**",
+            "/swagger-ui.html",
             "/v3/api-docs/**",
+            "/swagger-resources/**",
+            "/webjars/**",
+            "/login",
+            "/signup"
     };
 
     @Bean

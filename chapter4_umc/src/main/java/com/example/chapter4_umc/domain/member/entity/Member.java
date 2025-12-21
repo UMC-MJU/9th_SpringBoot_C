@@ -6,6 +6,7 @@ import com.example.chapter4_umc.domain.review.entity.Review;
 import com.example.chapter4_umc.domain.inquiry.entity.Inquiry;
 import com.example.chapter4_umc.domain.region.entity.Region;
 import com.example.chapter4_umc.domain.member.enums.Gender;
+import com.example.chapter4_umc.global.auth.enums.Role;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -45,6 +46,10 @@ public class Member{
 
     @Column(length = 100, unique = true) // 이메일 (VARCHAR 100, 중복 불가)
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     @Column(length = 20) // 전화번호 (VARCHAR 20)
     private String phoneNumber;
